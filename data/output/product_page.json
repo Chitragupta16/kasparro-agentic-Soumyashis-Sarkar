@@ -1,0 +1,19 @@
+{
+  "title": "GlowBoost Vitamin C Serum",
+  "description": "Experience the power of Vitamin C, Hyaluronic Acid.",
+  "price_display": "\u20b9699",
+  "highlights": [
+    "Brightening",
+    "Fades dark spots"
+  ],
+  "sections": [
+    {
+      "heading": "How to Use",
+      "content": "Apply 2-3 drops in the morning before sunscreen"
+    },
+    {
+      "heading": "Safety Information",
+      "content": "\u26a0\ufe0f Advisory: Mild tingling for sensitive skin. Perform a patch test before full application."
+    }
+  ]
+}

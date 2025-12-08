@@ -1,0 +1,20 @@
+{
+  "title": "GlowBoost Vitamin C Serum vs DermaGlow Generic Serum",
+  "product_a": "GlowBoost Vitamin C Serum",
+  "product_b": "DermaGlow Generic Serum",
+  "summary": "While both products target similar concerns, Product B is \u20b9249 cheaper.",
+  "comparison_table": [
+    {
+      "feature_name": "Price Point",
+      "product_a_value": "699.0",
+      "product_b_value": "450.0",
+      "analysis": "Product B is \u20b9249 cheaper."
+    },
+    {
+      "feature_name": "Key Ingredients",
+      "product_a_value": "Vitamin C, Hyaluronic Acid",
+      "product_b_value": "Vitamin C, Water, Glycerin",
+      "analysis": "Both products rely on Vitamin C. GlowBoost adds Hyaluronic Acid for extra efficacy."
+    }
+  ]
+}
