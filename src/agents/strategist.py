@@ -29,8 +29,6 @@ class StrategistAgent(BaseAgent):
         Make the answers helpful, professional, and based ONLY on the provided data.
         """
 
-        # We define a temporary typed schema for Gemini to target
-        # (This is a simplified schema just for generation guidance)
         result = self.model.generate_content(
             prompt,
             generation_config={"response_mime_type": "application/json"}

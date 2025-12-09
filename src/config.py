@@ -15,6 +15,4 @@ if not API_KEY:
 genai.configure(api_key=API_KEY)
 
 def get_gemini_model():
-    """Returns the configured model instance."""
-    # Using 1.5 Flash for speed and efficiency
     return genai.GenerativeModel('gemini-flash-latest')

@@ -13,7 +13,6 @@ class AnalystAgent(BaseAgent):
     def process(self, raw_text: str) -> ProductData:
         self.log("Analyzing raw input data...")
 
-        # strict schema enforcement using Gemini's response_schema
         prompt = f"""
         You are an expert Data Analyst. 
         Analyze the following product text and extract it into a strict JSON format.
@@ -21,11 +20,10 @@ class AnalystAgent(BaseAgent):
         Raw Text:
         {raw_text}
         
-        Ensure lists like ingredients and benefits are clean strings.
-        Price should be a float.
+        Ensure lists like ingredients and benefits are clean strings.Price should be a float.
         """
 
-        # We force Gemini to output strictly adhering to our Pydantic model
+        # Force Gemini to output strictly adhering to the Pydantic model
         result = self.model.generate_content(
             prompt,
             generation_config=dict(
@@ -34,7 +32,7 @@ class AnalystAgent(BaseAgent):
             )
         )
         
-        # Parse JSON and validate with Pydantic
+
         try:
             data_dict = json.loads(result.text)
             product_data = ProductData(**data_dict)

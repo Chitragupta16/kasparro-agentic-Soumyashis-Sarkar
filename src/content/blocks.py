@@ -2,16 +2,12 @@
 from typing import List, Dict, Any
 
 def format_currency_block(amount: float, currency: str = "₹") -> str:
-    """
-    Transforms raw float price into formatted string.
-    Rule: Always integer amounts for this brand tone.
-    """
+   
     return f"{currency}{int(amount)}"
 
 def compare_ingredients_block(list_a: List[str], list_b: List[str]) -> str:
     """
     Logic: Identifies common vs unique ingredients.
-    Returns a textual analysis string.
     """
     set_a = set(x.lower() for x in list_a)
     set_b = set(x.lower() for x in list_b)

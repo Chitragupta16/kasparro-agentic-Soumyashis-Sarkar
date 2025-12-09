@@ -2,12 +2,9 @@
 from typing import List, Optional
 from pydantic import BaseModel, Field
 
-# --- Internal Source of Truth ---
+
 class ProductData(BaseModel):
-    """
-    The strict internal representation of the product.
-    All agents will pass this object, not raw text.
-    """
+
     name: str = Field(..., description="Commercial name of the product")
     price: float = Field(..., description="Price in base currency")
     # FIX: Removed 'default="₹"' to prevent Gemini SDK error
@@ -18,7 +15,6 @@ class ProductData(BaseModel):
     usage_instructions: str = Field(..., description="Step-by-step usage guide")
     side_effects: str = Field(..., description="Known side effects or warnings")
 
-# --- Output Schemas (JSON Artifacts) ---
 
 # 1. FAQ Page Schema
 class FAQItem(BaseModel):
@@ -55,4 +51,4 @@ class ComparisonPage(BaseModel):
     product_a: str
     product_b: str
     comparison_table: List[ComparisonFeature]
-    summary: str
+    summary: str 
