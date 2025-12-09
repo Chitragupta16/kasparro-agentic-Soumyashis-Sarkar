@@ -26,7 +26,7 @@ This separation of concerns ensures that creative/generative tasks are handled b
 ## 4. System Design
 
 ### Architecture
-The system follows a linear Directed Acyclic Graph (DAG):
+The system follows a linear DAG as was required by the documentation given:
 `Ingestion -> Transformation -> Generation -> Assembly`
 
 ```mermaid
