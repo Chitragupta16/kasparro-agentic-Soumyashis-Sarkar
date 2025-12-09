@@ -52,5 +52,5 @@ Check the `data/output/` folder. You'll see three files generated:
 I used **Pydantic** for everything to ensure the agents talk to each other using strict objects, not loose strings. For the comparison logic (like calculating price differences), I wrote standard Python functions instead of asking the AI to do math, which keeps it reliable. 
 
 
-# Note
+### Note
 I took the help of Copilot for documentation in the comments of the code
