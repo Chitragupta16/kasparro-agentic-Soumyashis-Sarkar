@@ -4,7 +4,8 @@ This is my submission for the Kasparro Applied AI Engineer challenge. It’s a m
 
 I focused on building a clean pipeline where logic is deterministic, ie, the code and creativity is handled by the LLM,ie the agents.
 
-##NOTE : Find the relevant  project documentation in docs/projectdocumentation.md
+## NOTE : 
+Find the relevant  project documentation in docs/projectdocumentation.md
 
 ## How It Works
 
