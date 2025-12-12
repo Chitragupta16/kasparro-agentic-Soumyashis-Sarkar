@@ -1,19 +1,25 @@
 {
-  "title": "GlowBoost Vitamin C Serum",
-  "description": "Experience the power of Vitamin C, Hyaluronic Acid.",
-  "price_display": "\u20b9699",
+  "title": "GlowBoost Vitamin C Serum: Advanced Radiance Formula",
+  "description": "An expertly formulated, high-potency Vitamin C serum designed to visibly enhance skin luminosity, clarity, and overall texture. This lightweight, fast-absorbing treatment provides powerful antioxidant protection while precisely targeting visible signs of photodamage and hyperpigmentation.",
+  "price_display": "$699.00",
   "highlights": [
-    "Brightening",
-    "Fades dark spots"
+    "Visibly brightens and evens skin tone for a refined look.",
+    "Significantly reduces the appearance of dark spots and post-inflammatory hyperpigmentation.",
+    "Provides robust, daily antioxidant defense against environmental stressors.",
+    "Supports the skin's natural collagen synthesis for improved firmness."
   ],
   "sections": [
     {
-      "heading": "How to Use",
-      "content": "Apply 2-3 drops in the morning before sunscreen"
+      "heading": "The Science of Targeted Brightening",
+      "content": "GlowBoost utilizes a proprietary blend featuring a high concentration of stable L-Ascorbic Acid. This key ingredient penetrates the epidermis to directly inhibit the overproduction of melanin, effectively fading existing dark spots and preventing future discoloration. The result is a distinctly brighter, more uniform, and visibly revitalized complexion."
     },
     {
-      "heading": "Safety Information",
-      "content": "\u26a0\ufe0f Advisory: Mild tingling for sensitive skin. Perform a patch test before full application."
+      "heading": "Core Formulation Efficacy",
+      "content": "Our formula combines 15% pure Vitamin C with synergistic ingredients, including Ferulic Acid and Vitamin E. Ferulic Acid stabilizes the Vitamin C, dramatically increasing its potency and shelf life, while the combination of all three provides a four-fold increase in free radical protection compared to Vitamin C used alone. This powerful trio ensures maximum efficacy and skin protection."
+    },
+    {
+      "heading": "Application Protocol",
+      "content": "After cleansing in the morning, dispense 3-5 drops onto the palm of your hand and apply evenly to the face, neck, and d\u00e9colletage. Allow one minute for full absorption before applying subsequent treatments or moisturizer. Due to the high acid content, consistent use of a broad-spectrum sunscreen (SPF 30 or higher) is mandatory while using this product."
     }
   ]
 }

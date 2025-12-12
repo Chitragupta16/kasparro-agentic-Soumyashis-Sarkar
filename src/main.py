@@ -1,34 +1,45 @@
 # src/main.py
 import os
-import sys
-from src.core.orchestrator import Orchestrator
-
-def load_input_data(filepath: str) -> str:
-    if not os.path.exists(filepath):
-        print(f"Error: Input file '{filepath}' not found.")
-        sys.exit(1)
-    
-    with open(filepath, "r", encoding="utf-8") as f:
-        return f.read()
+import json
+from src.core.graph import build_graph
 
 def main():
-    # Define paths
+    # 1. Load Input
     input_path = os.path.join("data", "input", "product_data.txt")
+    with open(input_path, "r", encoding="utf-8") as f:
+        raw_text = f.read()
+        
+    # 2. Define Competitor Mock (Context)
+    competitor_data = {
+        "name": "DermaGlow Generic Serum",
+        "price": 450.0,
+        "ingredients": ["Vitamin C", "Water", "Glycerin"],
+    }
     
-    # 1. Load Data
-    print(f"Loading data from {input_path}...")
-    raw_text = load_input_data(input_path)
+    # 3. Run Graph
+    print("Initializing LangGraph Pipeline...")
+    app = build_graph()
     
-    # 2. Initialize Orchestrator
-    orchestrator = Orchestrator()
+    result = app.invoke({
+        "raw_text": raw_text,
+        "competitor_data": competitor_data
+    })
     
-    # 3. Run
-    try:
-        orchestrator.run_pipeline(raw_text)
-    except Exception as e:
-        print(f"Pipeline Failed: {e}")
-        import traceback
-        traceback.print_exc()
+    # 4. Save Outputs
+    output_dir = os.path.join("data", "output")
+    os.makedirs(output_dir, exist_ok=True)
+    
+    print("Saving artifacts...")
+    with open(os.path.join(output_dir, "product_page.json"), "w") as f:
+        json.dump(result["final_product_json"], f, indent=2)
+        
+    with open(os.path.join(output_dir, "comparison_page.json"), "w") as f:
+        json.dump(result["final_comparison_json"], f, indent=2)
+        
+    with open(os.path.join(output_dir, "faq.json"), "w") as f:
+        json.dump(result["final_faq_json"], f, indent=2)
+        
+    print("Pipeline Finished Successfully.")
 
 if __name__ == "__main__":
     main()
