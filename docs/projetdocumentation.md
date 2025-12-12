@@ -1,65 +1,50 @@
 # Project Documentation
 
 ## 1. Problem Statement
-The challenge was to build a modular agentic system that ingests raw product data and generates three specific types of structured content (FAQ, Product Page, Comparison) without human intervention.
+The objective was to design a modular agentic system capable of ingesting raw product data and autonomously generating structured content pages (FAQ, Product Description, Comparison).
 
-Key constraints included:
-* **No monolithic scripts:** The system must use distinct agents.
-* **Data integrity:** Operate strictly on provided data without external research.
-* **Structured Output:** All final deliverables must be machine-readable JSON.
+**Key Constraints:**
+* **Framework Requirement:** The system must utilize an established Agentic Framework (LangChain/LangGraph) rather than custom scripts (as was my previous submission's mistake).
+* **Data Constancy:** We have to operate strictly on the provided dataset without external research.
+* **Structured Output:** Deliver machine-readable JSON files.
 
 ## 2. Solution Overview
-I designed a **Sequential Orchestration Pipeline** rather than a complex multi-turn conversation loop (as was requried). This ensures predictability and ease of debugging.
+To satisfy the requirement for a robust agentic architecture, I implemented the solution using **LangGraph**.
 
-The system is composed of three specialized agents:
-1.  **Analyst:** Focuses on data parsing and validation.
-2.  **Strategist:** Focuses on creative generation (questions).
-3.  **Publisher:** Focuses on deterministic assembly using logic blocks.
+Instead of a linear script, the system is designed as a StateGraph. A shared state object (`AgentState`) flows through a graph of specialized nodes. This allows for centralized state management and standardized interface boundaries between agents.
 
-This separation of concerns ensures that creative/generative tasks are handled by the LLM, while the logical tasks (like price math) are handled by Python code.
+The pipeline consists of three graph nodes:
+1.  **Analyst Node:** Responsible for Extraction & Schema. It converts unstructured text into a validated Pydantic object.
+2.  **Strategist Node:** Responsible for Creative Ideation. It enriches the data by generating user-centric questions.
+3.  **Publisher Node:** Responsible for Tool-Assisted Assembly. Unlike a passive template engine, this agent is equipped with custom tools (e.g., `calculate_price_difference`) which it actively decides to invoke to ensure logical accuracy.
 
 ## 3. Scopes & Assumptions
-* **Scope - Logic vs. Generation:** I assumed that any numerical comparison (Price A vs Price B) should not be left to the LLM to avoid hallucination. These I then hardcoded as reusable logic blocks.
-* **Scope - Competitor Data:** As per the requirements, "Product B" data is mocked structurally within the code to demonstrate the comparison logic.
-* **Model:** Used Google Gemini Flash latest for high speed and reliable JSON schema adherence.
+* **Model:** Google Gemini Flash was chosen for its speed and native function-calling capabilities, and because it is free for use (primary reason).
+* **Tooling vs. Prompting:** Critical maths logic (price math, ingredient overlap) is encapsulated in functions and bound as **Tools**. I assumed that relying on the LLM for maths is a recipe for disaster, as well as slow and redundant.
+* **Competitor Data:** "Product B" data is structurally given within the main entry point for the comparison logic.
 
 ## 4. System Design
 
-### Architecture
-The system follows a linear DAG as was required by the documentation given:
-`Ingestion -> Transformation -> Generation -> Assembly`
+### Architecture Diagram (LangGraph)
 
 ```mermaid
 graph TD
-    User[Raw Text Input] -->|Step 1| Analyst[Analyst Agent]
-    Analyst -->|Validates Schema| Data[ProductData Model]
+    Start([Start]) --> Analyst[Analyst Node]
+    Analyst -->|Update State: ProductData| Strategist[Strategist Node]
     
-    Data -->|Step 2| Strategist[Strategist Agent]
-    Strategist -->|Generates| Qs[15+ Questions]
+    Strategist -->|Update State: Questions| Publisher[Publisher Node]
     
-    Data -->|Step 3| Publisher[Publisher Agent]
-    Qs -->|Input| Publisher
-    Comp[Competitor Data] -->|Input| Publisher
-    
-    subgraph "Deterministic Layer"
-    Publisher -->|Calls| Blocks[Logic Blocks]
-    Publisher -->|Uses| Templates[Template Engine]
+    subgraph "Publisher Agent Scope"
+    Publisher -->|Decides| CallTool{Call Tool?}
+    CallTool -->|Yes| Tools[Price/Ingred Logic]
+    Tools -->|Result| Publisher
     end
     
-    Publisher -->|Output| File1[faq.json]
-    Publisher -->|Output| File2[product_page.json]
-    Publisher -->|Output| File3[comparison_page.json]
+    Publisher -->|Update State: Final JSONs| End([End])
 ```
-### Design Decisions
 
-**1. Pydantic as the Data Contract**
-Instead of passing dictionaries or raw strings between agents, I implemented a strict `ProductData` class.
-* **Why:** This catches parsing errors immediately at the Analyst stage. If the LLM misses a field, the pipeline will stop and alert, rather than pushing forward with incomplete data.
+## 5. Key Logic
 
-**2. Decoupling Logic from Agents**
-I moved the business rules section (e.g., how to calculate price difference, how to format currency) into `src/content/blocks.py`.
-* **Why:** This makes the system testable and reliable.
+1. I moved away from custom agents to LangGraph to handle state management and comply with the guidelines given in the requirements of our submission.
 
-**3. The Publisher Pattern**
-The final agent (`Publisher`) does not use an LLM.
-* **Why:** Once we have the structured data and the generated questions, assembling the final JSON is a deterministic task. Using an LLM here would be slow, costly and redundant.
+**Reasoning**: Building a custom orchestrator is starting from scratch. LangGraph provides a standard way to define edges, nodes, and state persistence, making the system easier to extend (e.g., adding a "Reviewer" node loop later) without rewriting the core loop.

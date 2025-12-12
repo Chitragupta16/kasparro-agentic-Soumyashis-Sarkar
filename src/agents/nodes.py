@@ -7,37 +7,32 @@ from src.core.models import ProductData, FAQPage, ComparisonPage, ProductPage
 from src.content.tools import PUBLISHER_TOOLS
 from src.config import API_KEY
 
-# Initialize LLM
+# Initializing the LLM here
 llm = ChatGoogleGenerativeAI(
     model="gemini-flash-latest", 
     google_api_key=API_KEY, 
     temperature=0
 )
 
-# --- Node 1: Analyst (Ingestion) ---
+# Node 1: Analyst (Ingestion)
 def analyst_node(state: AgentState):
     print("--- [Analyst] Extracting Structured Data ---")
     
-    # 1. Define the Parser (Model-based)
     structured_llm = llm.with_structured_output(ProductData)
-    
-    # 2. Define Prompt
     prompt = ChatPromptTemplate.from_template(
         "Extract the following product text into a strict data object: {text}"
     )
-    
-    # 3. Execute Chain
     chain = prompt | structured_llm
     result = chain.invoke({"text": state["raw_text"]})
     
     return {"product_data": result}
 
-# --- Node 2: Strategist (Ideation) ---
+# Node 2: Strategist (Ideation)
 def strategist_node(state: AgentState):
     print("--- [Strategist] Brainstorming Questions ---")
     
-    # We want a list of FAQs, so we define a wrapper schema
-    # (Using the FAQPage schema from models.py as the target structure)
+    # We want a list of FAQs, so we define a wrapper schema for the whole
+    # (Using the FAQPage schema from models.py as the target structure here)
     structured_llm = llm.with_structured_output(FAQPage)
     
     prompt = ChatPromptTemplate.from_messages([
@@ -51,11 +46,9 @@ def strategist_node(state: AgentState):
     
     chain = prompt | structured_llm
     result = chain.invoke({"name": p_data.name, "details": details})
-    
-    # We transform the Pydantic object to a dict for the state
     return {"generated_questions": [item.dict() for item in result.faqs]}
 
-# --- Node 3: Publisher (Assembly with Tools) ---
+# Node 3: Publisher (Assembly with Tools)
 def publisher_node(state: AgentState):
     print("--- [Publisher] Assembling Final Pages ---")
     
@@ -74,8 +67,7 @@ def publisher_node(state: AgentState):
         "benefits": ", ".join(p_data.benefits)
     })
     
-    # B. Create Comparison Page JSON (Using Tools!)
-    # We bind tools to the LLM so it can CALCULATE the price diff
+    # B. Create Comparison Page
     comp_llm = llm.bind_tools(PUBLISHER_TOOLS).with_structured_output(ComparisonPage)
     
     comp_prompt = ChatPromptTemplate.from_messages([

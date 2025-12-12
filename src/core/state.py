@@ -10,16 +10,16 @@ class AgentState(TypedDict):
     """
     raw_text: str
     
-    # The structured data (populated by Analyst)
+    # The structured data (given by our analyst)
     product_data: Optional[ProductData]
     
-    # The strategy outputs (populated by Strategist)
+    # The strategy outputs (given by our strategist)
     generated_questions: Optional[List[Dict[str, str]]]
     
-    # Context data (Mocked competitor)
+    # Context data (the fictional competitor product)
     competitor_data: Optional[Dict[str, Any]]
     
-    # Final Artifacts (populated by Publisher)
+    # Final Artifacts (given by our publisher)
     final_faq_json: Optional[Dict]
     final_product_json: Optional[Dict]
     final_comparison_json: Optional[Dict]

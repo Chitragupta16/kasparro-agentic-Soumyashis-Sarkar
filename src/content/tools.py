@@ -40,5 +40,5 @@ def analyze_ingredient_overlap(list_a: List[str], list_b: List[str]) -> str:
     
     return " ".join(response)
 
-# Export tools list for the Agent to bind
+# Export tools list for the agent to bind
 PUBLISHER_TOOLS = [format_currency, calculate_price_difference, analyze_ingredient_overlap]

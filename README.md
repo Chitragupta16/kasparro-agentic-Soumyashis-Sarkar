@@ -1,27 +1,25 @@
-# Kasparro Agentic Content System- My submission
+# Kasparro Agentic Content System
 
-This is my submission for the Kasparro Applied AI Engineer challenge. It’s a modular system that takes raw product data and uses a team of agents to generate structured content pages (FAQ, Product Page, Comparison) automatically.
+This is my submission for the Kasparro Applied AI Engineer challenge. It is a modular agentic system built with **LangChain** and **LangGraph** that autonomously converts raw product data into structured content pages (FAQ, Product Page, Comparison).
 
-I focused on building a clean pipeline where logic is deterministic, ie, the code and creativity is handled by the LLM,ie the agents.
-
-## NOTE : 
-Find the relevant  project documentation in docs/projectdocumentation.md
+## Note
+I put the detailed system design and architectural diagram in `docs/projectdocumentation.md`.
 
 ## How It Works
 
-I avoided the "monolith script" approach, as was mentioned. Instead, I built a DAG with three distinct agents:
+I avoided the "monolith script" approach. Instead, I implemented a **StateGraph** (DAG) where data flows between three specialized nodes:
 
-1.  **Analyst Agent (Ingestion):** It takes the raw text and forces it into a strict Pydantic model (`ProductData`). If the data doesn't fit the schema, it should break early rather than hallucinating.
-2.  **Strategist Agent (Ideation):** Takes that structured data and brainstorms 15+ user questions tagged by category.
-3.  **Publisher Agent (Assembly):** This one doesn't use an LLM. It uses a custom Template Engine and Python logic blocks to assemble the final JSON files. This ensures math (like price comparisons) is always accurate.
+1.  **Analyst Node (Ingestion):** It parses raw text using a LangChain `PydanticOutputParser`. This enforces a strict `ProductData` schema immediately. If the input is bad, the pipeline fails early rather than pushing forward errors in the pipeline.
+2.  **Strategist Node (Ideation):** It receives the structured context and generates 15+ user-centric questions.
+3.  **Publisher Node (Assembly & Tools):** It unctions as the acting layer. Unlike a standard template engine, this agent has access to custom **Tools** (Python functions). It invokes these tools to perform accurate calculations (like price comparisons) before assembling the final JSON output.
 
 ## Setup
 
-I used Python 3.10+ and a Google Gemini API key ( which is free (gemini-flash-latest)).
+I used Python 3.10+ and the Google Gemini API (specifically `gemini-1.5-flash`).
 
 1.  **Clone the repo:**
     ```bash
-    git clone [https://github.com/Chitragupta16/kasparro-agentic-Soumyashis-Sarkar.git](https://github.com/Chitragupta16/kasparro-agentic-Soumyashis-Sarkar)
+    git clone [https://github.com/Chitragupta16/kasparro-agentic-Soumyashis-Sarkar.git](https://github.com/Chitragupta16/kasparro-agentic-Soumyashis-Sarkar.git)
     cd kasparro-agentic-Soumyashis-Sarkar
     ```
 
@@ -30,7 +28,7 @@ I used Python 3.10+ and a Google Gemini API key ( which is free (gemini-flash-la
     pip install -r requirements.txt
     ```
 
-3.  **Add your key:**
+3.  **Configure Environment:**
     Create a `.env` file in the root folder:
     ```env
     GEMINI_API_KEY=your_actual_key_here
@@ -38,22 +36,26 @@ I used Python 3.10+ and a Google Gemini API key ( which is free (gemini-flash-la
 
 ## Running the Pipeline
 
-To run the full flow (Analyst -> Strategist -> Publisher), run this command from the root directory:
+To execute the graph (Analyst -> Strategist -> Publisher), run:
 
 ```bash
 python -m src.main
+
 ```
 ## Output
 
-Check the `data/output/` folder. You'll see three files generated:
-* `faq.json`
-* `product_page.json`
-* `comparison_page.json`
+Artifacts are generated in the data/output/ folder:
+
+1. **faq.json**
+
+2. **product_page.json**
+
+3. **comparison_page.json**
 
 ## Logic & Design
+I used LangGraph to maintain a shared state object passed between nodes, rather than passing loose variables around.
 
-I used **Pydantic** for everything to ensure the agents talk to each other using strict objects, not loose strings. For the comparison logic (like calculating price differences), I wrote standard Python functions instead of asking the AI to do math, which keeps it reliable. 
+For logic like price differences, I bound Python functions as Tools to the Publisher agent. This prevents the LLM from attempting (and often failing at) maths.
 
-
-### Note
-I took the help of Copilot for documentation in the comments of the code
+## Note
+I used Copilot to assist with code commenting and documentation generation.

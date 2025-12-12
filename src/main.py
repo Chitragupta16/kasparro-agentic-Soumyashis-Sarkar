@@ -9,7 +9,7 @@ def main():
     with open(input_path, "r", encoding="utf-8") as f:
         raw_text = f.read()
         
-    # 2. Define Competitor Mock (Context)
+    # 2. Define the competitor(Context)
     competitor_data = {
         "name": "DermaGlow Generic Serum",
         "price": 450.0,
@@ -25,7 +25,7 @@ def main():
         "competitor_data": competitor_data
     })
     
-    # 4. Save Outputs
+    # 4. Save Outputs to the data/output
     output_dir = os.path.join("data", "output")
     os.makedirs(output_dir, exist_ok=True)
     
