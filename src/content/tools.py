@@ -1,13 +1,10 @@
-# src/content/tools.py
-from langchain_core.tools import tool
 from typing import List
 
-@tool
+
 def format_currency(amount: float, currency: str = "₹") -> str:
     """Formats a price amount into a standardized currency string."""
     return f"{currency}{int(amount)}"
 
-@tool
 def calculate_price_difference(price_a: float, price_b: float) -> str:
     """
     Calculates the difference between two prices and returns a text summary.
@@ -20,7 +17,6 @@ def calculate_price_difference(price_a: float, price_b: float) -> str:
         return f"Target product is ₹{int(diff)} more expensive."
     return "Both products have the same price."
 
-@tool
 def analyze_ingredient_overlap(list_a: List[str], list_b: List[str]) -> str:
     """
     Compares two lists of ingredients to find common and unique elements.
@@ -40,5 +36,6 @@ def analyze_ingredient_overlap(list_a: List[str], list_b: List[str]) -> str:
     
     return " ".join(response)
 
-# Export tools list for the agent to bind
+# If we ever need to bind them to an LLM later, we can wrap them then.
+# For now, we export them as raw functions.
 PUBLISHER_TOOLS = [format_currency, calculate_price_difference, analyze_ingredient_overlap]

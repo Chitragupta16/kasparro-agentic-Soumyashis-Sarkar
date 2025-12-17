@@ -14,6 +14,7 @@ class ProductData(BaseModel):
     skin_type: List[str] = Field(..., description="Target skin types")
     usage_instructions: str = Field(..., description="Step-by-step usage guide")
     side_effects: str = Field(..., description="Known side effects or warnings")
+    competitor_price: float = Field(description="Price of the competitor product found in competitor text", default=0.0)
 
 
 # 1. FAQ Page Schema

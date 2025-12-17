@@ -1,25 +1,16 @@
-# src/core/state.py
-from typing import List, Dict, Any, Optional
-from typing_extensions import TypedDict
-from src.core.models import ProductData, FAQItem, ComparisonPage
+from typing import TypedDict, Optional, List, Dict, Any
+from src.core.models import ProductData
 
 class AgentState(TypedDict):
-    """
-    The shared memory of the Graph.
-    Nodes (Agents) will modify this state as data flows through.
-    """
+    # Inputs
     raw_text: str
+    competitor_data: str
     
-    # The structured data (given by our analyst)
+    # Internal Processing
     product_data: Optional[ProductData]
+    generated_questions: List[Dict[str, str]] # This will become faq.json
+    retry_count: int
     
-    # The strategy outputs (given by our strategist)
-    generated_questions: Optional[List[Dict[str, str]]]
-    
-    # Context data (the fictional competitor product)
-    competitor_data: Optional[Dict[str, Any]]
-    
-    # Final Artifacts (given by our publisher)
-    final_faq_json: Optional[Dict]
-    final_product_json: Optional[Dict]
-    final_comparison_json: Optional[Dict]
+    # Final Outputs (Publisher splits these)
+    final_product_page: Dict[str, Any]      # product_page.json
+    final_comparison_page: Dict[str, Any]   #  comparison_page.json

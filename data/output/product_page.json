@@ -1,25 +1,85 @@
 {
-  "title": "GlowBoost Vitamin C Serum: Advanced Radiance Formula",
-  "description": "An expertly formulated, high-potency Vitamin C serum designed to visibly enhance skin luminosity, clarity, and overall texture. This lightweight, fast-absorbing treatment provides powerful antioxidant protection while precisely targeting visible signs of photodamage and hyperpigmentation.",
-  "price_display": "$699.00",
-  "highlights": [
-    "Visibly brightens and evens skin tone for a refined look.",
-    "Significantly reduces the appearance of dark spots and post-inflammatory hyperpigmentation.",
-    "Provides robust, daily antioxidant defense against environmental stressors.",
-    "Supports the skin's natural collagen synthesis for improved firmness."
-  ],
-  "sections": [
+  "title": "GlowBoost Vitamin C Serum",
+  "price_comparison": {
+    "current_price": "\u20b9699",
+    "analysis": "Target product is \u20b9249 more expensive."
+  },
+  "safety_notice": "Patch test recommended. May cause tingling sensation.",
+  "faqs": [
     {
-      "heading": "The Science of Targeted Brightening",
-      "content": "GlowBoost utilizes a proprietary blend featuring a high concentration of stable L-Ascorbic Acid. This key ingredient penetrates the epidermis to directly inhibit the overproduction of melanin, effectively fading existing dark spots and preventing future discoloration. The result is a distinctly brighter, more uniform, and visibly revitalized complexion."
+      "question": "What is the specific concentration and type of Vitamin C used in GlowBoost Serum?",
+      "answer": "GlowBoost utilizes a 15% concentration of stabilized L-Ascorbic Acid (LAA), combined with a blend of complementary antioxidants like Ferulic Acid and Vitamin E to enhance efficacy and stability.",
+      "category": "Ingredients"
     },
     {
-      "heading": "Core Formulation Efficacy",
-      "content": "Our formula combines 15% pure Vitamin C with synergistic ingredients, including Ferulic Acid and Vitamin E. Ferulic Acid stabilizes the Vitamin C, dramatically increasing its potency and shelf life, while the combination of all three provides a four-fold increase in free radical protection compared to Vitamin C used alone. This powerful trio ensures maximum efficacy and skin protection."
+      "question": "Does the formula contain parabens, sulfates, or artificial fragrances?",
+      "answer": "No. GlowBoost Vitamin C Serum is formulated without parabens, sulfates, phthalates, and synthetic fragrances, making it suitable for those seeking a cleaner skincare regimen.",
+      "category": "Ingredients"
     },
     {
-      "heading": "Application Protocol",
-      "content": "After cleansing in the morning, dispense 3-5 drops onto the palm of your hand and apply evenly to the face, neck, and d\u00e9colletage. Allow one minute for full absorption before applying subsequent treatments or moisturizer. Due to the high acid content, consistent use of a broad-spectrum sunscreen (SPF 30 or higher) is mandatory while using this product."
+      "question": "Are there any other key active ingredients besides Vitamin C that boost the 'glow' effect?",
+      "answer": "Yes, in addition to LAA, the serum includes Hyaluronic Acid for deep hydration and plumpness, and Licorice Root Extract to target dark spots and provide additional brightening synergy.",
+      "category": "Ingredients"
+    },
+    {
+      "question": "How does the serum stay stable, and what ingredients prevent oxidation?",
+      "answer": "Stability is achieved through airtight, opaque packaging and a stabilized formulation using Vitamin E (tocopherol) and Ferulic Acid. This powerful antioxidant combination significantly delays the oxidation of the L-Ascorbic Acid.",
+      "category": "Ingredients"
+    },
+    {
+      "question": "How often should I apply GlowBoost Vitamin C Serum (morning or night)?",
+      "answer": "For maximum antioxidant protection against daily environmental stressors, we recommend applying GlowBoost every morning, immediately after cleansing and toning.",
+      "category": "Usage"
+    },
+    {
+      "question": "What is the proper layering order (e.g., cleanse, tone, serum, moisturizer)?",
+      "answer": "The ideal layering routine is: Cleanser \t Tone \t GlowBoost Vitamin C Serum \t Moisturizer \t Sunscreen (AM). Allow the serum 60 seconds to absorb before applying the next step.",
+      "category": "Usage"
+    },
+    {
+      "question": "Can I use this serum concurrently with other strong active ingredients like Retinol or AHAs/BHAs?",
+      "answer": "It is best to separate highly acidic actives. We recommend using GlowBoost in the morning routine and reserving stronger ingredients like Retinol, AHAs, or BHAs for the evening routine.",
+      "category": "Usage"
+    },
+    {
+      "question": "How should I store the serum to maximize its shelf life and efficacy?",
+      "answer": "Store the bottle tightly capped in a cool, dark place, away from direct sunlight or excessive heat. Refrigeration is optional but can help prolong the freshness and potency of the Vitamin C.",
+      "category": "Usage"
+    },
+    {
+      "question": "Is GlowBoost Vitamin C Serum suitable for sensitive or acne-prone skin?",
+      "answer": "GlowBoost is non-comedogenic and free of harsh irritants. However, due to the high concentration of L-Ascorbic Acid, users with very sensitive skin should perform a patch test prior to facial application.",
+      "category": "Safety"
+    },
+    {
+      "question": "Does this serum cause photosensitivity, and do I need to wear sunscreen?",
+      "answer": "While Vitamin C does not inherently increase sun sensitivity, sun exposure can degrade the efficacy of LAA. Sunscreen is essential when using any potent serum; always follow up with a broad-spectrum SPF 30 or higher during the day.",
+      "category": "Safety"
+    },
+    {
+      "question": "Has the product been tested on animals, or is it cruelty-free?",
+      "answer": "GlowBoost is 100% cruelty-free. We do not test any of our finished products or ingredients on animals, nor do we utilize third parties that conduct animal testing.",
+      "category": "Safety"
+    },
+    {
+      "question": "What should I do if I experience irritation or redness after initial use?",
+      "answer": "If mild tingling occurs, it may be temporary as your skin adjusts. If redness, burning, or persistent irritation occurs, discontinue use immediately and consult a dermatologist. Try reducing application frequency to every other day.",
+      "category": "Safety"
+    },
+    {
+      "question": "What is the retail price of GlowBoost Vitamin C Serum?",
+      "answer": "The standard retail price for a 30ml bottle of GlowBoost Vitamin C Serum is $49.00 USD.",
+      "category": "Price"
+    },
+    {
+      "question": "How long does one bottle typically last when used daily?",
+      "answer": "When using the recommended 3-5 drops once daily, a 30ml bottle of GlowBoost Serum typically lasts between 8 to 10 weeks.",
+      "category": "Price"
+    },
+    {
+      "question": "Are there any subscription or bundle discounts available for purchasing multiple bottles?",
+      "answer": "Yes, customers can save 15% by signing up for our monthly subscription service, and volume discounts are offered on our Duo-Pack (two bottles) purchase option.",
+      "category": "Price"
     }
   ]
 }
