@@ -7,11 +7,11 @@ I put the detailed system design and architectural diagram in `docs/projectdocum
 
 ## How It Works
 
-I avoided the "monolith script" approach. Instead, I implemented a **StateGraph** (DAG) where data flows between three specialized nodes:
+I avoided the "monolith script" approach. Instead, I implemented a **StateGraph** (DAG) where data flows between three specialized nodes with intelligent feedback loops:
 
-1.  **Analyst Node (Ingestion):** It parses raw text using a LangChain `PydanticOutputParser`. This enforces a strict `ProductData` schema immediately. If the input is bad, the pipeline fails early rather than pushing forward errors in the pipeline.
-2.  **Strategist Node (Ideation):** It receives the structured context and generates 15+ user-centric questions.
-3.  **Publisher Node (Assembly & Tools):** It unctions as the acting layer. Unlike a standard template engine, this agent has access to custom **Tools** (Python functions). It invokes these tools to perform accurate calculations (like price comparisons) before assembling the final JSON output.
+1.  **Analyst Node (Ingestion):** It parses raw text using structured output parsers to enforce a strict `ProductData` schema immediately. Crucially, it now **dynamically extracts competitor pricing** from unstructured text, allowing for real-time market comparison without hardcoded values.
+2.  **Strategist Node (Ideation):** It receives the structured context and generates 15+ user-centric questions. I implemented a **Self-Correction Loop** here: if the agent generates fewer than 15 questions, the graph automatically rejects the output and forces a retry with a stronger prompt.
+3.  **Publisher Node (Assembly & Tools):** It functions as the acting layer. Unlike a standard template engine, this agent uses **Deterministic Tools** (pure Python functions) to calculate price differences accurately before assembling the final JSON artifacts.
 
 ## Setup
 
@@ -40,7 +40,6 @@ To execute the graph (Analyst -> Strategist -> Publisher), run:
 
 ```bash
 python -m src.main
-
 ```
 ## Output
 
@@ -55,7 +54,9 @@ Artifacts are generated in the data/output/ folder:
 ## Logic & Design
 I used LangGraph to maintain a shared state object passed between nodes, rather than passing loose variables around.
 
-For logic like price differences, I bound Python functions as Tools to the Publisher agent. This prevents the LLM from attempting (and often failing at) maths.
+1. Self-Correction: I utilized Conditional Edges to implement a "Retry" mechanism. This ensures the Strategist meets quality standards (15+ FAQs) before passing control downstream.
+
+2. Deterministic Math: For logic like price differences, I created Python functions that the Publisher agent can call. I removed the Tools to fix the broken tools issue. This prevents the LLM from attempting (and often failing at) arithmetic.
 
 ## Note
 I used Copilot to assist with code commenting and documentation generation.
