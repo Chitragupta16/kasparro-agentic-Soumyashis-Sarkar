@@ -15,7 +15,7 @@ I avoided the "monolith script" approach. Instead, I implemented a **StateGraph*
 
 ## Setup
 
-I used Python 3.10+ and the Google Gemini API (specifically `gemini-1.5-flash`).
+I used Python 3.10+ and the Google Gemini API (specifically `gemini-flash-latest`).
 
 1.  **Clone the repo:**
     ```bash
