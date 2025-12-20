@@ -28,14 +28,14 @@ graph TD
     Publisher["Publisher Agent<br/>Execution Node"]
     EndNode((End))
 
-    Analyst -->|"Product Data"| Strategist
+    Analyst -->|ProductData| Strategist
 
-    Strategist -->|"Check Quality"| Decision{"Questions ≥ 15?"}
+    Strategist -->|CheckQuality| Decision{Questions_15_or_more}
 
-    Decision --|"No | Retry limit not reached"|--> Strategist
-    Decision --|"Yes | Approved"|--> Publisher
+    Decision -- No --> Strategist
+    Decision -- Yes --> Publisher
 
-    Publisher -->|"Generate JSONs"| EndNode
+    Publisher -->|GenerateJSONs| EndNode
 
     style Analyst fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style Strategist fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
