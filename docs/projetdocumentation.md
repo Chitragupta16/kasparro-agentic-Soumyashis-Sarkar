@@ -37,10 +37,6 @@ graph TD
 
     Publisher -->|GenerateJSONs| EndNode
 
-    style Analyst fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    style Strategist fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
-    style Publisher fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
-    style Decision fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray:5 5
 
 ```
 
