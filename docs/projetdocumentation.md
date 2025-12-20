@@ -23,28 +23,25 @@ The following diagram illustrates the system's control flow, including the **Sel
 
 ```mermaid
 graph TD
-    %% Nodes
-    Analyst(Analyst Agent<br/>Extraction Node)
-    Strategist(Strategist Agent<br/>Ideation Node)
-    Publisher(Publisher Agent<br/>Execution Node)
+    Analyst["Analyst Agent<br/>Extraction Node"]
+    Strategist["Strategist Agent<br/>Ideation Node"]
+    Publisher["Publisher Agent<br/>Execution Node"]
     EndNode((End))
 
-    %% Flows
-    Analyst -->|Product Data| Strategist
-    
-    %% The Conditional Loop
-    Strategist -->|Check Quality| Decision{Questions >= 15?}
-    Decision -- No (Retry < 3) -->|Feedback Loop| Strategist
-    Decision -- Yes -->|Approved| Publisher
-    
-    %% Final
-    Publisher -->|Generate JSONs| EndNode
+    Analyst -->|"Product Data"| Strategist
 
-    %% Styling
+    Strategist -->|"Check Quality"| Decision{"Questions ≥ 15?"}
+
+    Decision --|"No | Retry limit not reached"|--> Strategist
+    Decision --|"Yes | Approved"|--> Publisher
+
+    Publisher -->|"Generate JSONs"| EndNode
+
     style Analyst fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style Strategist fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
     style Publisher fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
-    style Decision fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray: 5 5
+    style Decision fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray:5 5
+
 ```
 
 ## 3. Scopes & Assumptions
