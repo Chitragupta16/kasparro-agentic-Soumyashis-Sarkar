@@ -18,33 +18,54 @@ The pipeline consists of three graph nodes:
 2.  **Strategist Node:** Responsible for Creative Ideation. It enriches the data by generating user-centric questions.
 3.  **Publisher Node:** Responsible for Tool-Assisted Assembly. Unlike a passive template engine, this agent is equipped with custom tools (e.g., `calculate_price_difference`) which it actively decides to invoke to ensure logical accuracy.
 
-## 3. Scopes & Assumptions
-* **Model:** Google Gemini Flash was chosen for its speed and native function-calling capabilities, and because it is free for use (primary reason).
-* **Tooling vs. Prompting:** Critical maths logic (price math, ingredient overlap) is encapsulated in functions and bound as **Tools**. I assumed that relying on the LLM for maths is a recipe for disaster, as well as slow and redundant.
-* **Competitor Data:** "Product B" data is structurally given within the main entry point for the comparison logic.
-
-## 4. System Design
-
-### Architecture Diagram (LangGraph)
+### The Workflow (State Machine)
+The following diagram illustrates the system's control flow, including the **Self-Correction Feedback Loop**:
 
 ```mermaid
 graph TD
-    Start([Start]) --> Analyst[Analyst Node]
-    Analyst -->|Update State: ProductData| Strategist[Strategist Node]
+    %% Nodes
+    Analyst(Analyst Agent<br/>Extraction Node)
+    Strategist(Strategist Agent<br/>Ideation Node)
+    Publisher(Publisher Agent<br/>Execution Node)
+    EndNode((End))
+
+    %% Flows
+    Analyst -->|Product Data| Strategist
     
-    Strategist -->|Update State: Questions| Publisher[Publisher Node]
+    %% The Conditional Loop
+    Strategist -->|Check Quality| Decision{Questions >= 15?}
+    Decision -- No (Retry < 3) -->|Feedback Loop| Strategist
+    Decision -- Yes -->|Approved| Publisher
     
-    subgraph "Publisher Agent Scope"
-    Publisher -->|Decides| CallTool{Call Tool?}
-    CallTool -->|Yes| Tools[Price/Ingred Logic]
-    Tools -->|Result| Publisher
-    end
-    
-    Publisher -->|Update State: Final JSONs| End([End])
+    %% Final
+    Publisher -->|Generate JSONs| EndNode
+
+    %% Styling
+    style Analyst fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style Strategist fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
+    style Publisher fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style Decision fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
-## 5. Key Logic
+## 3. Scopes & Assumptions
+* **Model:** Google Gemini Flash was chosen for its speed and native function-calling capabilities, and because it is free for use (primary reason).
+* **Tooling vs. Prompting:** Critical maths logic (price math, ingredient overlap) is encapsulated in functions. I assumed that relying on the LLM for maths is a recipe for disaster, as well as slow and redundant.
+* **Competitor Data:** "Product B" data is structurally given within the main entry point for the comparison logic.
 
-1. I moved away from custom agents to LangGraph to handle state management and comply with the guidelines given in the requirements of our submission.
 
-**Reasoning**: Building a custom orchestrator is starting from scratch. LangGraph provides a standard way to define edges, nodes, and state persistence, making the system easier to extend (e.g., adding a "Reviewer" node loop later) without rewriting the core loop.
+## 4. Key Logic & Architectural Decisions
+
+1. **I moved away from custom agents to LangGraph to handle state management and comply with the assignment guidelines.**
+   **Reasoning**: Building a custom orchestrator is "reinventing the wheel." LangGraph provides a standardized framework for defining state persistence, cyclic graphs, and conditional routing, making the system easier to extend (e.g., adding a "Reviewer" loop) without rewriting the core execution logic.
+
+2. **I replaced LLM-based calculations with deterministic Python tools for price analysis.**
+   **Reasoning**: Large Language Models are probabilistic and prone to "hallucinating" arithmetic. By offloading math to pure Python functions (`calculate_price_difference`), I ensure 100% numerical accuracy while letting the LLM focus on what it does best: generating persuasive natural language descriptions.
+
+3. **I implemented a "Self-Correction" feedback loop for the Strategist Agent.**
+   **Reasoning**: A simple linear chain accepts the first draft regardless of quality. By utilizing LangGraph's **Conditional Edges**, the system validates the output (e.g., checking if question count < 15) and automatically forces the agent to retry with a stronger prompt if quality standards are not met.
+
+4. **I refactored the pipeline to generate three distinct, modular JSON artifacts instead of a single monolithic file.**
+   **Reasoning**: Professional frontends often load data asynchronously (e.g., loading FAQs separately from the Price Comparison). Decoupling the outputs into `faq.json`, `product_page.json`, and `comparison_page.json` adheres to the "Separation of Concerns" principle and allows for cleaner integration.
+
+5. **I upgraded the Analyst Agent to dynamically extract competitor pricing.**
+   **Reasoning**: Relying on hardcoded or "stubbed" values creates technical debt. I updated the schema to dynamically identify and extract competitor price points from unstructured text, ensuring the comparison logic adapts in real-time to the specific input provided.

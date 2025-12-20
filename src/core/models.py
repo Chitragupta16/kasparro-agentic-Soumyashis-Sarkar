@@ -11,9 +11,9 @@ class ProductData(BaseModel):
     currency: str = Field(description="Currency symbol") 
     ingredients: List[str] = Field(..., description="List of active ingredients")
     benefits: List[str] = Field(..., description="Key benefits provided")
-    skin_type: List[str] = Field(..., description="Target skin types")
-    usage_instructions: str = Field(..., description="Step-by-step usage guide")
-    side_effects: str = Field(..., description="Known side effects or warnings")
+    skin_type: List[str] = Field(default_factory=list, description="Target skin types")
+    usage_instructions: Optional[str] = Field(None, description="Step-by-step usage guide")
+    side_effects: Optional[str] = Field(None, description="Known side effects")
     competitor_price: float = Field(description="Price of the competitor product found in competitor text", default=0.0)
 
 
@@ -22,6 +22,7 @@ class FAQItem(BaseModel):
     question: str
     answer: str
     category: str  # e.g., Safety, Usage, General
+    answer:Optional[str] = None
 
 class FAQPage(BaseModel):
     page_title: str = "Frequently Asked Questions"
